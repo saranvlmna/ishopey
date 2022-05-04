@@ -3,11 +3,12 @@ const { route } = require('express/lib/application');
 const { ObjectId } = require('mongodb');
 var router = express.Router();
 var productcontroller = require('../controller/product-controller');
-/* GET users listing. */
-router.get('/', (req, res, next) => {
-productcontroller.getAllProducts().then((products)=>{
-  res.render('admin/view-product.hbs', { admin: true, products })
-})
+
+
+router.get('/', function (req, res, next) {
+  productcontroller.getAllProducts().then((products) => {
+    res.render('admin/view-product.hbs', { admin: true, products })
+  })
 });
 
 router.get('/add-products', (req, res) => {
@@ -15,19 +16,14 @@ router.get('/add-products', (req, res) => {
 })
 
 router.post('/add-products', (req, res) => {
-
-  productcontroller.addProduct(req.body, (result) => {
-    const id=result.insertedId.toString()
+  productcontroller.addProduct(req.body, (id) => {
     let image = req.files.image
-    image.mv('./public/product-img/' + id + '.png', (err, done) => {
+    image.mv('./public/images/' + id + '.jpg', (err, done) => {
       if (!err) {
         res.render('admin/add-products')
-
-      }
-      else{
+      } else {
         console.log(err)
       }
-
     })
   })
 
