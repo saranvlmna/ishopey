@@ -1,5 +1,7 @@
+const { response } = require('express');
 var express = require('express');
 const { route } = require('express/lib/application');
+const async = require('hbs/lib/async');
 const { ObjectId } = require('mongodb');
 var router = express.Router();
 var productcontroller = require('../controller/product-controller');
@@ -27,6 +29,29 @@ router.post('/add-products', (req, res) => {
     })
   })
 
+})
+
+router.get('/delete-product/:id', (req, res) => {
+  const id = req.params.id
+  productcontroller.deleteProduct(id).then((response) => {
+    res.redirect('/admin/')
+  })
+})
+
+router.get('/edit-product/', async (req, res) => {
+  const id = req.query.id
+  let product = await productcontroller.getProductDetails(id)
+  res.render('admin/edit-products.hbs', { product })
+})
+
+router.post('/edit-product/', async (req, res) => {
+  var id = req.query.id
+  await productcontroller.updateProduct(id, req.body)
+  if (req.files.image) {
+    var image = req.files.image
+    image.mv('./public/images/' + id + '.jpg')
+  }
+  res.redirect('/admin/')
 })
 
 module.exports = router;
