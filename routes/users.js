@@ -18,12 +18,17 @@ const verifyLogin = (req, res, next) => {
   }
 }
 
-router.get('/', function (req, res, next) {
+router.get('/', async function (req, res, next) {
   let user = req.session.user;
+  let cartCount = null
+  if (user) {
+    cartCount = await productcontroller.getCartCount(user._id);
+  }
   productcontroller.getAllProducts().then((products) => {
-    res.render('users/view-product.hbs', { admin: false, products, user });
+    res.render('users/view-product.hbs', { admin: false, products, user, cartCount });
   })
 });
+
 router.get('/login', (req, res) => {
   if (req.session.loggedIn) {
     res.redirect('/')
@@ -32,9 +37,11 @@ router.get('/login', (req, res) => {
     res.render('users/login.hbs', { "logginEror": req.session.logginEror })
   req.session.logginEror = false
 })
+
 router.get('/signup', (req, res) => {
   res.render('users/signup.hbs')
 })
+
 router.post('/signup', (req, res) => {
   auth.Signup(req.body).then((data) => {
     req.session.loggedIn = true
@@ -42,6 +49,7 @@ router.post('/signup', (req, res) => {
     res.redirect('/')
   })
 })
+
 router.post('/login', (req, res) => {
   auth.Login(req.body).then((response) => {
     if (response.status) {
@@ -59,16 +67,17 @@ router.get('/logout', (req, res) => {
   res.redirect('/')
 })
 
-router.get("/getCartProducts",verifyLogin, async (req, res) => {
-  let product = await productcontroller.getCart(req.session.user._id)
-  console.log(product)
+router.get("/getCartProducts", verifyLogin, async (req, res) => {
+  const product = await productcontroller.getCart(req.session.user._id)
+  const count = product.length
+  res.render('users/cart.hbs', { product, user: req.session.user })
 })
 
 router.get("/addto-cart", verifyLogin, async (req, res) => {
   var PrId = req.query.id
   var userId = req.session.user._id
   await productcontroller.AddToCart(userId, PrId)
-  res.render('users/cart.hbs')
+  res.redirect('/')
 })
 
 
