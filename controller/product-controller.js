@@ -49,23 +49,39 @@ module.exports = {
     },
     AddToCart: (userId, PrId) => {
         try {
+            let ProductObj = {
+                item: ObjectId(PrId),
+                quantity: 1
+            }
             return new Promise(async (resolve, reject) => {
                 let userCart = await db.get().collection(collection.CART).findOne({ user: ObjectId(userId) })
                 if (userCart) {
-                    db.get().collection(collection.CART).updateOne({ user: ObjectId(userId) },
-                        {
+                    let Productexist = userCart.products.findIndex(product => product.item.toString() === PrId.toString())
+                    if (Productexist != -1) {
+                        db.get().collection(collection.CART).updateOne({ 'products.item': ObjectId(PrId) },
+                            {
+                                $inc: { 'products.$.quantity': 1 }
+                            }).then(() => {
+                                resolve()
+                            })
+                    }
+                    else {
+                        db.get().collection(collection.CART).updateOne({ user: ObjectId(userId) },
+                            {
 
-                            $push: { products: ObjectId(PrId) }
+                                $push: { products: ProductObj }
 
-                        }
-                    ).then((response) => {
-                        resolve(response)
-                    })
+                            }
+                        ).then((response) => {
+                            resolve(response)
+                        })
+                    }
+
                 }
                 else {
                     let cartObj = {
                         user: ObjectId(userId),
-                        products: [ObjectId(PrId)]
+                        products: [ProductObj]
                     }
                     db.get().collection(collection.CART).insertOne(cartObj).then((response) => {
                         resolve(response)
@@ -84,24 +100,42 @@ module.exports = {
                     $match: { user: ObjectId(userId) }//match is used to filter the data
                 },
                 {
-                    $lookup: {//lookup is used to join the data
-                        from: collection.PRODUCT,//from is the collection name
-                        let: { prodList: '$products' },//let is the variable name
-                        pipeline: [//pipeline is the operations to be performed on the data
-                            {
-                                $match: {
-                                    $expr: {//expr is used to perform operations on the data
-                                        $in: ['$_id', "$$prodList"]//in is used to check if the data is present in the collection
-                                    }
-                                }
-                            }
-                        ],
-                        as: "cartItems"//as is the variable name
+                    $unwind: '$products'//unwind is used to split the array into multiple documents
+                },
+                {
+                    $project: {//project is used to select the fields to be returned
+                        item: '$products.item',
+                        quantity: '$products.quantity'
+                    }
+                },
+                {
+                    $lookup: {
+                        from: collection.PRODUCT,
+                        localField: 'item',
+                        foreignField: '_id',
+                        as: 'product'
                     }
                 }
+                // {
+                //     $lookup: {//lookup is used to join the data
+                //         from: collection.PRODUCT,//from is the collection name
+                //         let: { prodList: '$products' },//let is the variable name
+                //         pipeline: [//pipeline is the operations to be performed on the data
+                //             {
+                //                 $match: {
+                //                     $expr: {//expr is used to perform operations on the data
+                //                         $in: ['$_id', "$$prodList"]//in is used to check if the data is present in the collection
+                //                     }
+                //                 }
+                //             }
+                //         ],
+                //         as: "cartItems"//as is the variable name
+                //     }
+                // }
             ]).toArray()
             // resolve(cartItems)
-            resolve(cartItems[0].cartItems)
+            resolve(cartItems)
+            console.log(cartItems)
 
         })
     },
