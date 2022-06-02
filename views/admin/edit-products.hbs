@@ -1,36 +1,79 @@
 <section>
-    <div class="container">
-        <div class="row">
-            <form action="/admin/edit-product?id={{product._id}}" method="post" enctype="multipart/form-data">
-                <div class="form-group">
-                    <label for="name">Name</label>
-                    <input type="text" class="form-control" id="name" name="name" value="{{product.name}}" placeholder="Enter name">
-                </div>
-                <div class="form-group">
-                    <label for="category">Category</label>
-                    <input type="text" class="form-control" id="category" name="caregory" value="{{product.caregory}}" placeholder="Enter category">
-                </div>
-                <div class="form-group">
-                    <label for="description">Description</label>
- <input type="text" class="form-control" id="desccription" name="desccription"   value="{{product.desccription}}" placeholder="Enter price">
-                </div>
-                <div class="form-group">
-                    <label for="price">Price</label>
-                    <input type="text" class="form-control" id="price" name="price"   value="{{product.price}}" placeholder="Enter price">
-                </div>
-                <div class="form-group">
-                    <label for="image">Image</label>
-                    <img src="/public/images/{{product._id}}.jpg" alt="{{product._id}}" style="width:100px;height:auto" id="imgView">
-                    <input type="file" class="form-control-file" id="image" name="image" onchange="viewImg(event)">
-                </div>
-                <button type="submit" class="btn btn-success">Submit</button>
-            </form>
+  <div class='container'>
+    <div class='row'>
+      <form
+        action='/admin/edit-product?id={{product._id}}'
+        method='post'
+        enctype='multipart/form-data'
+      >
+        <div class='form-group'>
+          <label for='name'>Name</label>
+          <input
+            type='text'
+            class='form-control'
+            id='name'
+            name='name'
+            value='{{product.name}}'
+            placeholder='Enter name'
+          />
         </div>
+        <div class='form-group'>
+          <label for='category'>Category</label>
+          <input
+            type='text'
+            class='form-control'
+            id='category'
+            name='caregory'
+            value='{{product.caregory}}'
+            placeholder='Enter category'
+          />
+        </div>
+        <div class='form-group'>
+          <label for='description'>Description</label>
+          <input
+            type='text'
+            class='form-control'
+            id='desccription'
+            name='desccription'
+            value='{{product.desccription}}'
+            placeholder='Enter price'
+          />
+        </div>
+        <div class='form-group'>
+          <label for='price'>Price</label>
+          <input
+            type='text'
+            class='form-control'
+            id='price'
+            name='price'
+            value='{{product.price}}'
+            placeholder='Enter price'
+          />
+        </div>
+        <div class='form-group'>
+          <label for='image'>Image</label>
+          <img
+            src='/public/images/{{product._id}}.jpg'
+            alt='{{product._id}}'
+            style='width:100px;height:auto'
+            id='imgView'
+          />
+          <input
+            type='file'
+            class='form-control-file'
+            id='image'
+            name='image'
+            onchange='viewImg(event)'
+          />
+        </div>
+        <button type='submit' class='btn btn-success'>Submit</button>
+      </form>
     </div>
+  </div>
 </section>
 
 <script>
-    function viewImg(event){
-        document.getElementById('imgView').src=URL.createObjectURL(event.target.files[0])
-    }
+  function viewImg(event){
+  document.getElementById('imgView').src=URL.createObjectURL(event.target.files[0])
+  }
 </script>

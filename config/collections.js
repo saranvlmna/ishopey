@@ -1,5 +1,5 @@
-module.exports={
-    PRODUCT:'product',
-    USER:'user',
-    CART:'cart'
-}
+module.exports = {
+  PRODUCT: 'product',
+  USER: 'user',
+  CART: 'cart',
+};

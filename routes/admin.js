@@ -6,52 +6,50 @@ const { ObjectId } = require('mongodb');
 var router = express.Router();
 var productcontroller = require('../controller/product-controller');
 
-
 router.get('/', function (req, res, next) {
   productcontroller.getAllProducts().then((products) => {
-    res.render('admin/view-product.hbs', { admin: true, products })
-  })
+    res.render('admin/view-product.hbs', { admin: true, products });
+  });
 });
 
 router.get('/add-products', (req, res) => {
-  res.render('admin/add-products')
-})
+  res.render('admin/add-products');
+});
 
 router.post('/add-products', (req, res) => {
   productcontroller.addProduct(req.body, (id) => {
-    let image = req.files.image
+    let image = req.files.image;
     image.mv('./public/images/' + id + '.jpg', (err, done) => {
       if (!err) {
-        res.render('admin/add-products')
+        res.render('admin/add-products');
       } else {
-        console.log(err)
+        console.log(err);
       }
-    })
-  })
-
-})
+    });
+  });
+});
 
 router.get('/delete-product/:id', (req, res) => {
-  const id = req.params.id
+  const id = req.params.id;
   productcontroller.deleteProduct(id).then((response) => {
-    res.redirect('/admin/')
-  })
-})
+    res.redirect('/admin/');
+  });
+});
 
 router.get('/edit-product/', async (req, res) => {
-  const id = req.query.id
-  let product = await productcontroller.getProductDetails(id)
-  res.render('admin/edit-products.hbs', { product })
-})
+  const id = req.query.id;
+  let product = await productcontroller.getProductDetails(id);
+  res.render('admin/edit-products.hbs', { product });
+});
 
 router.post('/edit-product/', async (req, res) => {
-  var id = req.query.id
-  await productcontroller.updateProduct(id, req.body)
+  var id = req.query.id;
+  await productcontroller.updateProduct(id, req.body);
   if (req.files.image) {
-    var image = req.files.image
-    image.mv('./public/images/' + id + '.jpg')
+    var image = req.files.image;
+    image.mv('./public/images/' + id + '.jpg');
   }
-  res.redirect('/admin/')
-})
+  res.redirect('/admin/');
+});
 
 module.exports = router;
