@@ -98,6 +98,7 @@ router.get('/delete-cart-prdct/', (req, res) => {
   var cartId = req.query.cId;
   var prId = req.query.pId;
   productcontroller.deleteCartPrdct(cartId, prId);
+  res.redirect('/getCartProducts');
 });
 
 router.get('/chekout', verifyLogin, (req, res) => {
