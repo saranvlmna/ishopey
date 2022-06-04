@@ -6,6 +6,7 @@ const async = require('hbs/lib/async');
 var ObjectId = require('mongodb').ObjectId;
 module.exports = {
   addProduct: (product, callback) => {
+    product.price = parseInt(product.price);
     db.get()
       .collection(collection.PRODUCT)
       .insertOne(product)
@@ -242,6 +243,54 @@ module.exports = {
         .then((response) => {
           resolve(response);
         });
+    });
+  },
+  getCartDetails(userId) {
+    return new Promise(async (resolve, reject) => {
+      var OrderItems = await db
+        .get()
+        .collection(collection.CART)
+        .aggregate([
+          {
+            $match: { user: ObjectId(userId) },
+          },
+          {
+            $unwind: '$products',
+          },
+          {
+            $project: {
+              item: '$products.item',
+              quantity: '$products.quantity',
+            },
+          },
+          {
+            $lookup: {
+              from: collection.PRODUCT,
+              localField: 'item',
+              foreignField: '_id',
+              as: 'product',
+            },
+          },
+          {
+            $project: {
+              item: 1,
+              quantity: 1,
+              product: { $arrayElemAt: ['$product', 0] },
+            },
+          },
+          {
+            $group: {
+              _id: null,
+              total: { $sum: { $multiply: ['$quantity', '$product.price'] } },
+              products: { $push: '$$ROOT' },
+            },
+          },
+        ])
+        .toArray();
+      console.log(typeof OrderItems);
+      var Total = OrderItems[0].total;
+      var quantity = OrderItems[0].products.length;
+      resolve({ Total, quantity });
     });
   },
 };

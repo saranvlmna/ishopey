@@ -100,4 +100,13 @@ router.get('/delete-cart-prdct/', (req, res) => {
   productcontroller.deleteCartPrdct(cartId, prId);
 });
 
+router.get('/chekout', verifyLogin, (req, res) => {
+  productcontroller.getCartDetails(req.session.user._id).then((Order) => {
+    var Total = Order.Total;
+    var quantity = Order.quantity;
+    console.log(Total, quantity);
+    res.render('users/checkout.hbs', { Total, quantity });
+  });
+});
+
 module.exports = router;
