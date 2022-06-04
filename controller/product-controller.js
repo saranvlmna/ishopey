@@ -179,7 +179,6 @@ module.exports = {
         .toArray();
       // resolve(cartItems)
       resolve(cartItems);
-      console.log(cartItems);
     });
   },
   getCartCount(userId) {
@@ -198,7 +197,6 @@ module.exports = {
   changePrdQuantitiy(cartId, prId, count, quantity) {
     count = parseInt(count);
     quantity = parseInt(quantity);
-    console.log(count, quantity);
     return new Promise((resolve, reject) => {
       if (count == -1 && quantity == 1) {
         db.get()
@@ -211,6 +209,7 @@ module.exports = {
           )
           .then((response) => {
             resolve({ removePrd: true });
+            console.log(response);
           });
       } else {
         db.get()
@@ -228,6 +227,21 @@ module.exports = {
             resolve(true);
           });
       }
+    });
+  },
+  deleteCartPrdct(cartId, prId) {
+    return new Promise((resolve, reject) => {
+      console.log(cartId);
+      console.log(prId);
+      db.get()
+        .collection(collection.CART)
+        .updateOne(
+          { _id: ObjectId(cartId) },
+          { $pull: { products: { item: ObjectId(prId) } } }
+        )
+        .then((response) => {
+          resolve(response);
+        });
     });
   },
 };

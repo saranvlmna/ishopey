@@ -94,4 +94,10 @@ router.post('/change-prdct-quantity', (req, res, next) => {
     });
 });
 
+router.get('/delete-cart-prdct/', (req, res) => {
+  var cartId = req.query.cId;
+  var prId = req.query.pId;
+  productcontroller.deleteCartPrdct(cartId, prId);
+});
+
 module.exports = router;
