@@ -83,7 +83,10 @@ module.exports = {
             db.get()
               .collection(collection.CART)
               .updateOne(
-                { user: ObjectId(userId), 'products.item': ObjectId(PrId) },
+                {
+                  user: ObjectId(userId),
+                  'products.item': ObjectId(PrId),
+                },
                 {
                   $inc: { 'products.$.quantity': 1 },
                 }
@@ -213,7 +216,10 @@ module.exports = {
         db.get()
           .collection(collection.CART)
           .updateOne(
-            { _id: ObjectId(cartId), 'products.item': ObjectId(prId) },
+            {
+              _id: ObjectId(cartId),
+              'products.item': ObjectId(prId),
+            },
             {
               $inc: { 'products.$.quantity': count },
             }
