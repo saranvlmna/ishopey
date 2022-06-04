@@ -210,7 +210,6 @@ module.exports = {
           )
           .then((response) => {
             resolve({ removePrd: true });
-            console.log(response);
           });
       } else {
         db.get()
@@ -232,8 +231,6 @@ module.exports = {
   },
   deleteCartPrdct(cartId, prId) {
     return new Promise((resolve, reject) => {
-      console.log(cartId);
-      console.log(prId);
       db.get()
         .collection(collection.CART)
         .updateOne(
@@ -287,7 +284,6 @@ module.exports = {
           },
         ])
         .toArray();
-      console.log(typeof OrderItems);
       var Total = OrderItems[0].total;
       var quantity = OrderItems[0].products.length;
       resolve({ Total, quantity });
