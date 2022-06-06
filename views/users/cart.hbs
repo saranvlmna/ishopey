@@ -51,10 +51,12 @@
         </tbody>
       </table>
       <hr />
+      <h4 class="text-success"><span class="float-right mt-3" id="total">Total ₹ {{Total}}</span></h4>
+      <hr />
+      <div class="float-right mt-5">
+        <a href='/chekout' class='btn btn-success ml-auto'>Check Out</a>
+      </div>
     </div>
-    <footer style='margin-top: 10cm; margin-left: 20cm;'>
-      <a href='/chekout' class='btn btn-success ml-auto'>Check Out</a>
-    </footer>
   </div>
 </section>
 <script>
@@ -69,7 +71,9 @@
         count: count,
         quantity: quantity
       }, success: (res) => {
+        console.log(res.Total)
         document.getElementById(proId).innerHTML = quantity + count;
+        document.getElementById('total').innerHTML = 'Total ₹ ' + res.Total;
         if (res.removePrd) {
           alert('Product Removed')
           location.reload()

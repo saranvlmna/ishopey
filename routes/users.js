@@ -70,9 +70,10 @@ router.get('/logout', (req, res) => {
 });
 
 router.get('/getCartProducts', verifyLogin, async (req, res) => {
+  var Total = global.Total
   const product = await productcontroller.getCart(req.session.user._id);
   const count = product.length;
-  res.render('users/cart.hbs', { product, user: req.session.user });
+  res.render('users/cart.hbs', { product, user: req.session.user, Total });
 });
 
 router.get('/addto-cart', verifyLogin, async (req, res) => {
@@ -82,14 +83,18 @@ router.get('/addto-cart', verifyLogin, async (req, res) => {
   res.redirect('/');
 });
 
-router.post('/change-prdct-quantity', (req, res, next) => {
+router.post('/change-prdct-quantity', async(req, res, next) => {
   var cartId = req.body.cartId;
   var prId = req.body.proId;
   var count = req.body.count;
   var quantity = req.body.quantity;
   productcontroller
     .changePrdQuantitiy(cartId, prId, count, quantity)
-    .then((response) => {
+    .then(async(response) => {
+      let totlaAmount = await productcontroller.getCartDetails(req.session.user._id)
+      global.Total = totlaAmount.Total
+      global.quantity = totlaAmount.quantity
+      response.Total = global.Total
       res.json(response);
     });
 });
@@ -102,11 +107,10 @@ router.get('/delete-cart-prdct/', (req, res) => {
 });
 
 router.get('/chekout', verifyLogin, (req, res) => {
-  productcontroller.getCartDetails(req.session.user._id).then((Order) => {
-    var Total = Order.Total;
-    var quantity = Order.quantity;
-    res.render('users/checkout.hbs', { Total, quantity });
-  });
+  var Total = global.Total;
+  var quantity = global.quantity
+    ;
+  res.render('users/checkout.hbs', { Total, quantity });
 });
 
 module.exports = router;
