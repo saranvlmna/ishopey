@@ -110,7 +110,7 @@ router.get('/chekout', verifyLogin, (req, res) => {
   var Total = global.Total;
   var quantity = global.quantity
     ;
-  res.render('users/checkout.hbs', { Total, quantity });
+  res.render('users/checkout.hbs', { Total, quantity,user: req.session.user });
 });
 
 module.exports = router;
