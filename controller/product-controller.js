@@ -284,9 +284,12 @@ module.exports = {
           },
         ])
         .toArray();
-      var Total = OrderItems[0].total;
-      var quantity = OrderItems[0].products.length;
-      resolve({ Total, quantity });
+      if (OrderItems.length > 0) { 
+        var Total = OrderItems[0].total;
+        var quantity = OrderItems[0].products.length;
+        resolve({ Total, quantity });
+      }
+      else return resolve({ Total: 0, quantity: 0 });
     });
   },
 };
