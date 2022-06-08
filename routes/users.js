@@ -13,11 +13,11 @@ const verifyLogin = (req, res, next) => {
   if (req.session.loggedIn) {
     next();
   } else {
-    res.redirect('/');
+    res.redirect('/login');
   }
 };
 
-router.get('/', async function (req, res, next) {
+router.get('/', verifyLogin, async function (req, res, next) {
   let user = req.session.user;
   let cartCount = null;
   if (user) {
