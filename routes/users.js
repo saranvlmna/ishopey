@@ -105,7 +105,7 @@ router.get('/delete-cart-prdct/', (req, res) => {
   res.redirect('/getCartProducts');
 });
 
-router.get('/chekout', verifyLogin, async(req, res) => {
+router.get('/chekout', verifyLogin, async (req, res) => {
   let totlaAmount = await productcontroller.getCartDetails(req.session.user._id)
   var Total = totlaAmount.Total
   var quantity = totlaAmount.quantity
@@ -113,4 +113,13 @@ router.get('/chekout', verifyLogin, async(req, res) => {
   res.render('users/checkout.hbs', { Total, quantity, user: req.session.user });
 });
 
+router.post('/place-order', async (req, res) => {
+  let products = await productcontroller.getCartProduct(req.session.user._id)
+  let totlaAmount = await productcontroller.getCartDetails(req.session.user._id)
+  var Total = totlaAmount.Total
+  productcontroller.placeOrder(req.body, products, Total).then((response) => {
+    response.status = true
+    res.json(response)
+  })
+})
 module.exports = router;

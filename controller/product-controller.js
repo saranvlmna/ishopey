@@ -224,7 +224,7 @@ module.exports = {
             }
           )
           .then((response) => {
-            resolve({status: true});
+            resolve({ status: true });
           });
       }
     });
@@ -284,12 +284,38 @@ module.exports = {
           },
         ])
         .toArray();
-      if (OrderItems.length > 0) { 
+      if (OrderItems.length > 0) {
         var Total = OrderItems[0].total;
         var quantity = OrderItems[0].products.length;
         resolve({ Total, quantity });
       }
       else return resolve({ Total: 0, quantity: 0 });
     });
+  },
+  getCartProduct(userId) {
+    return new Promise(async (resolve, reject) => {
+      let cart = await db.get().collection(collection.CART).findOne({ user: ObjectId(userId) });
+      resolve(cart.products)
+    })
+  },
+  placeOrder(order, product, total) {
+    return new Promise((resolve, reject) => {
+      let status = order.payMethod == 'cod' ? 'placed' : 'pendding';
+      let orderObect = {
+        delivarydetails: {
+          name: order.name,
+          address: order.address,
+        },
+        userId: ObjectId(order.userId),
+        payMethod: order.payMethod,
+        products: product,
+        Total:total,
+        status: status,
+      }
+      db.get().collection(collection.ORDER).insertOne(orderObect).then((response) => {
+        db.get().collection(collection.CART).deleteOne({ user: ObjectId(order.userId) })
+        resolve(response);
+      })
+    })
   },
 };
