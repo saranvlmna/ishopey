@@ -118,8 +118,25 @@ router.post('/place-order', async (req, res) => {
   let totlaAmount = await productcontroller.getCartDetails(req.session.user._id)
   var Total = totlaAmount.Total
   productcontroller.placeOrder(req.body, products, Total).then((response) => {
-    response.status = true
-    res.json(response)
+    if (req.body.payMethod == 'cod') {
+      res.json({ codsuccess: true })
+    }
+    else {
+      productcontroller.genarateRazorpay(response.insertedId, Total).then((response) => {
+        res.json(response)
+      })
+    }
+  })
+})
+router.post('/verify-payment', (req, res) => {
+  productcontroller.verifyPayment(req.body).then((response) => { 
+    productcontroller.changePaymentStatus(req.body['order[receipt]']).then(() => {
+      console.log("payment success")
+      res.json({ success: 'payment success' })
+    })
+  }).catch((err) => {
+    console.log(err)
+    res.json({ success: 'payment failed' })
   })
 })
 module.exports = router;

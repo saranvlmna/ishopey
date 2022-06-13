@@ -1,92 +1,133 @@
 <section style="background-color: #eee;">
-        <div class="card">
-            <div class="card-body">
-                <div class="row d-flex justify-content-center pb-1">
-                    <div class="col-md-7 col-xl-5 mb-4 mb-md-0">
-                        <div class="py-4 d-flex flex-row">
-                            <h5><span class="far fa-check-square pe-2"></span><b>ELIGIBLE</b> |</h5>
-                            <span class="ps-2">Pay</span>
-                        </div>
-                        <h4 class="text-success">₹{{Total}}</h4>
-                            <form class="pb-3" action="" id="checkoutform">
-                                <div>
-                                    <input type="text" name="name" placeholder="name">
-                                    <input type="text" name="address" placeholder="address">
-                                </div>
-
-                                <div class="d-flex flex-row pb-3">
-                                    <div class="d-flex align-items-center pe-2">
-                                        <input class="form-check-input" type="radio" name="payMethod"
-                                             value="online" name="online" checked />
-                                    </div>
-                                    <div class="rounded border d-flex w-100 p-3 align-items-center">
-                                        <p class="mb-0">
-                                        </p>
-                                        <div class="ms-auto">online</div>
-                                    </div>
-                                </div>
-
-                                <div class="d-flex flex-row">
-                                    <div class="d-flex align-items-center pe-2">
-                                        <input class="form-check-input" type="radio" name="payMethod"
-                                             value="cod" name="cod" />
-                                    </div>
-                                    <div class="rounded border d-flex w-100 p-3 align-items-center">
-                                        <p class="mb-0">
-                                        </p>
-                                        <div class="ms-auto">Cod</div>
-                                    </div>
-                                </div>
-                                <input type="text" name="userId" id="" value="{{user._id}}" hidden>
-                            <button type="submit" class="btn btn-primary btn-block btn-lg mt-5" >Proceed to payment</button>
-                            </form>
-                        </div>
+    <div class="card">
+        <div class="card-body">
+            <div class="row d-flex justify-content-center pb-1">
+                <div class="col-md-7 col-xl-5 mb-4 mb-md-0">
+                    <div class="py-4 d-flex flex-row">
+                        <h5><span class="far fa-check-square pe-2"></span><b>ELIGIBLE</b> |</h5>
+                        <span class="ps-2">Pay</span>
                     </div>
+                    <h4 class="text-success">₹{{Total}}</h4>
+                    <form class="pb-3" action="" id="checkoutform">
+                        <div>
+                            <input type="text" name="name" placeholder="name">
+                            <input type="text" name="address" placeholder="address">
+                        </div>
 
-                    <div class="col-md-5 col-xl-4 offset-xl-1">
-                        <div class="py-4 d-flex justify-content-end">
-                            <h6><a href="/">Cancel and return to website</a></h6>
-                        </div>
-                        <div class="rounded d-flex flex-column p-2 pt-5" style="background-color: #f8f9fa;">
-                            <div class="p-2 me-3">
-                                <h4>Order Recap</h4>
+                        <div class="d-flex flex-row pb-3">
+                            <div class="d-flex align-items-center pe-2">
+                                <input class="form-check-input" type="radio" name="payMethod" value="online"
+                                    name="online" checked />
                             </div>
-                            <div class="p-2 d-flex">
-                                <div class="col-8">Total Items</div>
-                                <div class="ms-auto">{{quantity}}</div>
-                            </div>
-                            <div class="p-2 d-flex">
-                                <div class="col-8">Delivery Charges</div>
-                                <div class="ms-auto">₹40</div>
-                            </div>
-                            <div class="p-2 d-flex">
-                                <div class="col-8">Gst</div>
-                                <div class="ms-auto">₹0.00</div>
-                            </div>
-                            <div class="border-top px-2 mx-2"></div>
-                            <div class="p-2 d-flex pt-3">
-                                <div class="col-8"><b>Total</b></div>
-                                <div class="ms-auto"><b class="text-success">₹{{Total}}</b></div>
+                            <div class="rounded border d-flex w-100 p-3 align-items-center">
+                                <p class="mb-0">
+                                </p>
+                                <div class="ms-auto">online</div>
                             </div>
                         </div>
+
+                        <div class="d-flex flex-row">
+                            <div class="d-flex align-items-center pe-2">
+                                <input class="form-check-input" type="radio" name="payMethod" value="cod" name="cod" />
+                            </div>
+                            <div class="rounded border d-flex w-100 p-3 align-items-center">
+                                <p class="mb-0">
+                                </p>
+                                <div class="ms-auto">Cod</div>
+                            </div>
+                        </div>
+                        <input type="text" name="userId" id="" value="{{user._id}}" hidden>
+                        <button type="submit" class="btn btn-primary btn-block btn-lg mt-5">Proceed to payment</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="col-md-5 col-xl-4 offset-xl-1">
+                <div class="py-4 d-flex justify-content-end">
+                    <h6><a href="/">Cancel and return to website</a></h6>
+                </div>
+                <div class="rounded d-flex flex-column p-2 pt-5" style="background-color: #f8f9fa;">
+                    <div class="p-2 me-3">
+                        <h4>Order Recap</h4>
+                    </div>
+                    <div class="p-2 d-flex">
+                        <div class="col-8">Total Items</div>
+                        <div class="ms-auto">{{quantity}}</div>
+                    </div>
+                    <div class="p-2 d-flex">
+                        <div class="col-8">Delivery Charges</div>
+                        <div class="ms-auto">₹40</div>
+                    </div>
+                    <div class="p-2 d-flex">
+                        <div class="col-8">Gst</div>
+                        <div class="ms-auto">₹0.00</div>
+                    </div>
+                    <div class="border-top px-2 mx-2"></div>
+                    <div class="p-2 d-flex pt-3">
+                        <div class="col-8"><b>Total</b></div>
+                        <div class="ms-auto"><b class="text-success">₹{{Total}}</b></div>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
     </div>
 </section>
-
 <script>
-    $("#checkoutform").submit((res)=>{
+    $("#checkoutform").submit((res) => {
         res.preventDefault()
         $.ajax({
-            url:'/place-order',
-            method:'post',
-            data:$('#checkoutform').serialize(),
-            success:(response)=>{
-                if(response.status){
+            url: '/place-order',
+            method: 'post',
+            data: $('#checkoutform').serialize(),
+            success: (response) => {
+                if (response.codsuccess) {
                     window.location.href = '/'
+                } else {
+                    razPay(response)
                 }
             }
         })
     })
+    function razPay(order) {
+        var options = {
+            "key": "rzp_test_1VvZZM6FyCzRTb",
+            "amount": order.amount,
+            "currency": "INR",
+            "name": "vLmnA",
+            "description": "Test Transaction",
+            "image": "https://example.com/your_logo",
+            "order_id": order.id,
+            "handler": function (response) {
+                verifyPayment(response, order)
+            },
+            "prefill": {
+                "name": "Gaurav Kumar",
+                "email": "gaurav.kumar@example.com",
+                "contact": "9999999999"
+            },
+            "notes": {
+                "address": "Razorpay Corporate Office"
+            },
+            "theme": {
+                "color": "#3399cc"
+            }
+        };
+        var rzp1 = new Razorpay(options);
+        rzp1.open();
+    }
+    function verifyPayment(payment, order) {
+        $.ajax({
+            url: '/verify-payment',
+            data: {
+                payment,
+                order
+            },
+            method: 'post'
+        }).then((res)=>{
+            alert(res.success)
+            window.location.href = '/'
+        })
+    }
+
 </script>
