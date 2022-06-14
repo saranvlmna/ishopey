@@ -59,6 +59,7 @@ module.exports = {
 
   updateProduct: (id, data) => {
     return new Promise((resolve, reject) => {
+      data.price = parseInt(data.price);
       db.get()
         .collection(collection.PRODUCT)
         .updateOne(
@@ -371,7 +372,6 @@ module.exports = {
   },
 
   async changePaymentStatus(orderId) {
-    console.log(orderId)
     await new Promise((resolve, reject) => {
       db.get().collection(collection.ORDER).updateOne({ _id: ObjectId(orderId) },
         { $set: { status: 'Placed' } });

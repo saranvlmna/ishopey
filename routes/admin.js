@@ -21,7 +21,7 @@ router.post('/add-products', (req, res) => {
     let image = req.files.image;
     image.mv('./public/images/' + id + '.jpg', (err, done) => {
       if (!err) {
-        res.render('admin/add-products');
+        res.render('admin/add-products', { admin: true });
       } else {
         console.log(err);
       }
@@ -32,24 +32,25 @@ router.post('/add-products', (req, res) => {
 router.get('/delete-product/:id', (req, res) => {
   const id = req.params.id;
   productcontroller.deleteProduct(id).then((response) => {
-    res.redirect('/admin/');
+    res.redirect('/admin');
   });
 });
 
 router.get('/edit-product/', async (req, res) => {
   const id = req.query.id;
   let product = await productcontroller.getProductDetails(id);
-  res.render('admin/edit-products.hbs', { product });
+  res.render('admin/edit-products.hbs', {admin: true, product });
 });
 
 router.post('/edit-product/', async (req, res) => {
   var id = req.query.id;
   await productcontroller.updateProduct(id, req.body);
+  res.redirect('/admin');
   if (req.files.image) {
     var image = req.files.image;
     image.mv('./public/images/' + id + '.jpg');
   }
-  res.redirect('/admin');
+
 });
 
 router.get('/allOrders', async (req, res) => {
