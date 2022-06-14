@@ -127,9 +127,9 @@ router.post('/place-order', async (req, res) => {
       })
     }
   })
-})
+});
 router.post('/verify-payment', (req, res) => {
-  productcontroller.verifyPayment(req.body).then((response) => { 
+  productcontroller.verifyPayment(req.body).then((response) => {
     productcontroller.changePaymentStatus(req.body['order[receipt]']).then(() => {
       console.log("payment success")
       res.json({ success: 'payment success' })
@@ -138,5 +138,9 @@ router.post('/verify-payment', (req, res) => {
     console.log(err)
     res.json({ success: 'payment failed' })
   })
+});
+router.get('/orders', async(req, res) => {
+  const ordrs = await productcontroller.ordrs(req.session.user._id)
+  res.render('users/orders.hbs', { ordrs, user: req.session.user })
 })
 module.exports = router;

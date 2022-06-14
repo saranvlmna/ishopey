@@ -319,6 +319,7 @@ module.exports = {
         products: product,
         Total: total,
         status: status,
+        createdAt: new Date(),
       }
       db.get().collection(collection.ORDER).insertOne(orderObect).then((response) => {
         db.get().collection(collection.CART).deleteOne({ user: ObjectId(order.userId) })
@@ -329,7 +330,7 @@ module.exports = {
   async genarateRazorpay(orId, total) {
     return new Promise((resolve, reject) => {
       var options = {
-        "amount": total*100,
+        "amount": total * 100,
         "currency": "INR",
         "receipt": "" + orId,
       }
@@ -362,5 +363,54 @@ module.exports = {
       resolve(response);
     });
     resolve();
+  },
+  async ordrs(userId) {
+    return new Promise((resolve, reject) => {
+      db.get().collection(collection.ORDER).aggregate([
+        {
+          $match: { userId: ObjectId(userId) }
+        },
+        {
+          $project: {
+            payMethod: 1,
+            status: 1,
+            createdAt: 1,
+            products: 1,
+          }
+        },
+        {
+          $unwind: '$products',
+        },
+        {
+          $project: {
+            item: '$products.item',
+            quantity: '$products.quantity',
+            payMethod: 1,
+            status: 1,
+            createdAt: 1,
+          },
+        },
+        {
+          $lookup: {
+            from: collection.PRODUCT,
+            localField: 'item',
+            foreignField: '_id',
+            as: 'product',
+          },
+        },
+
+        {
+          $project: {
+            quantity: 1,
+            product: { $arrayElemAt: ['$product', 0], },
+            payMethod: 1,
+            status: 1,
+            createdAt: 1,
+          }
+        }
+      ]).toArray((err, response) => {
+        resolve(response)
+      })
+    })
   }
 };

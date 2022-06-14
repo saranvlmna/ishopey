@@ -1,0 +1,35 @@
+<section>
+
+    <div class="container mt-4">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Sl No</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Payment Method</th>
+                    <th scope="col">status</th>
+                    <th scope="col">quantity</th>
+                    <th scope="col">Image</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each ordrs}}
+                <tr>
+                    <th scope="row">1</th>
+                    <td>{{this.product.name}}</td>
+                    <td>{{this.product.caregory}}</td>
+                    <td>{{this.product.price}}</td>
+                    <td>{{this.payMethod}}</td>
+                    <td>{{this.status}}</td>
+                    <td>{{this.quantity}}</td>
+
+                    <td><img style="width: 50px; height: 50px;" src="/images/{{this.product._id}}.jpg" alt="{{this.name}}" />
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+</section>
