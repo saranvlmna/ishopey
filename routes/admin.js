@@ -49,15 +49,15 @@ router.post('/edit-product/', async (req, res) => {
     var image = req.files.image;
     image.mv('./public/images/' + id + '.jpg');
   }
-  res.redirect('/admin/');
+  res.redirect('/admin');
 });
 router.get('/allOrders', async (req, res) => {
   const ordrs = await productcontroller.getAllOrders()
-  res.render('admin/orders.hbs', { ordrs });
+  res.render('admin/orders.hbs', { admin: true, ordrs });
 })
-router.get('/allusers',async(req,res)=> {
+router.get('/allusers', async (req, res) => {
   const allUser = await productcontroller.getAllUsers()
-  // console.log(allUser)
+  res.render('admin/alluser.hbs', { admin: true, allUser })
 })
 
 

@@ -8,6 +8,7 @@ module.exports = {
     try {
       return new Promise(async (resolve, reject) => {
         data.password = await bcript.hash(data.password, 10);
+        data.createdAt=new Date();
         db.get().collection(collection.USER).insertOne(data).then;
         resolve(data);
       });

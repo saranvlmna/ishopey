@@ -459,12 +459,21 @@ module.exports = {
         }
       ]).toArray((err, response) => {
         response.map((item) => {
-          item.createdAt=item.createdAt.toDateString()
+          item.createdAt = item.createdAt.toDateString()
+        })
+        resolve(response)
+      })
+    })
+  },
+  getAllUsers() {
+    return new Promise((resolve, reject) => {
+      db.get().collection(collection.USER).find({}).toArray((err, response) => {
+        response.map((item) => {
+          item.createdAt = item.createdAt.toDateString()
         })
         resolve(response)
       })
     })
   }
 }
-
 
