@@ -64,6 +64,7 @@ router.post('/login', (req, res) => {
     }
   });
 });
+
 router.get('/logout', (req, res) => {
   req.session.destroy();
   res.redirect('/');
@@ -128,6 +129,7 @@ router.post('/place-order', async (req, res) => {
     }
   })
 });
+
 router.post('/verify-payment', (req, res) => {
   productcontroller.verifyPayment(req.body).then((response) => {
     productcontroller.changePaymentStatus(req.body['order[receipt]']).then(() => {
@@ -139,8 +141,10 @@ router.post('/verify-payment', (req, res) => {
     res.json({ success: 'payment failed' })
   })
 });
+
 router.get('/orders', async(req, res) => {
   const ordrs = await productcontroller.ordrs(req.session.user._id)
   res.render('users/orders.hbs', { ordrs, user: req.session.user })
 })
+
 module.exports = router;

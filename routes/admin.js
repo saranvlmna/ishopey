@@ -51,14 +51,15 @@ router.post('/edit-product/', async (req, res) => {
   }
   res.redirect('/admin');
 });
+
 router.get('/allOrders', async (req, res) => {
   const ordrs = await productcontroller.getAllOrders()
   res.render('admin/orders.hbs', { admin: true, ordrs });
 })
+
 router.get('/allusers', async (req, res) => {
   const allUser = await productcontroller.getAllUsers()
   res.render('admin/alluser.hbs', { admin: true, allUser })
 })
-
 
 module.exports = router;

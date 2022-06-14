@@ -4,6 +4,7 @@ const collection = require('../config/collections');
 const bcript = require('bcrypt');
 const async = require('hbs/lib/async');
 module.exports = {
+
   Signup: (data) => {
     try {
       return new Promise(async (resolve, reject) => {
@@ -16,6 +17,7 @@ module.exports = {
       console.log(error);
     }
   },
+
   Login: (data) => {
     try {
       return new Promise(async (resolve, reject) => {
@@ -43,4 +45,5 @@ module.exports = {
       console.log(error);
     }
   },
+  
 };

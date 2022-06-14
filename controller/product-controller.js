@@ -13,6 +13,7 @@ var instance = new Razorpay({
 });
 
 module.exports = {
+
   addProduct: (product, callback) => {
     product.price = parseInt(product.price);
     db.get()
@@ -33,6 +34,7 @@ module.exports = {
       resolve(products);
     });
   },
+
   deleteProduct: (id) => {
     return new Promise((resolve, reject) => {
       db.get()
@@ -43,6 +45,7 @@ module.exports = {
         });
     });
   },
+
   getProductDetails: (id) => {
     return new Promise((resolve, reject) => {
       db.get()
@@ -53,6 +56,7 @@ module.exports = {
         });
     });
   },
+
   updateProduct: (id, data) => {
     return new Promise((resolve, reject) => {
       db.get()
@@ -73,6 +77,7 @@ module.exports = {
         });
     });
   },
+
   AddToCart: (userId, PrId) => {
     try {
       let ProductObj = {
@@ -133,6 +138,7 @@ module.exports = {
       console.log(error);
     }
   },
+
   getCart: (userId) => {
     return new Promise(async (resolve, reject) => {
       var cartItems = await db
@@ -190,6 +196,7 @@ module.exports = {
       resolve(cartItems);
     });
   },
+
   getCartCount(userId) {
     return new Promise(async (resolve, reject) => {
       let cart = await db
@@ -203,6 +210,7 @@ module.exports = {
       }
     });
   },
+
   changePrdQuantitiy(cartId, prId, count, quantity) {
     count = parseInt(count);
     quantity = parseInt(quantity);
@@ -237,6 +245,7 @@ module.exports = {
       }
     });
   },
+
   deleteCartPrdct(cartId, prId) {
     return new Promise((resolve, reject) => {
       db.get()
@@ -250,6 +259,7 @@ module.exports = {
         });
     });
   },
+
   getCartDetails(userId) {
     return new Promise(async (resolve, reject) => {
       var OrderItems = await db
@@ -300,12 +310,14 @@ module.exports = {
       else return resolve({ Total: 0, quantity: 0 });
     });
   },
+
   getCartProduct(userId) {
     return new Promise(async (resolve, reject) => {
       let cart = await db.get().collection(collection.CART).findOne({ user: ObjectId(userId) });
       resolve(cart.products)
     })
   },
+
   placeOrder(order, product, total) {
     return new Promise((resolve, reject) => {
       let status = order.payMethod == 'cod' ? 'Placed' : 'Failed';
@@ -327,6 +339,7 @@ module.exports = {
       })
     })
   },
+
   async genarateRazorpay(orId, total) {
     return new Promise((resolve, reject) => {
       var options = {
@@ -342,6 +355,7 @@ module.exports = {
       })
     })
   },
+
   verifyPayment(payment) {
     return new Promise((resolve, reject) => {
       const crypto = require('crypto');
@@ -355,6 +369,7 @@ module.exports = {
       }
     })
   },
+
   async changePaymentStatus(orderId) {
     console.log(orderId)
     await new Promise((resolve, reject) => {
@@ -364,6 +379,7 @@ module.exports = {
     });
     resolve();
   },
+
   async ordrs(userId) {
     return new Promise((resolve, reject) => {
       db.get().collection(collection.ORDER).aggregate([
@@ -416,6 +432,7 @@ module.exports = {
       })
     })
   },
+
   getAllOrders() {
     return new Promise((resolve, reject) => {
       db.get().collection(collection.ORDER).aggregate([
@@ -465,6 +482,7 @@ module.exports = {
       })
     })
   },
+
   getAllUsers() {
     return new Promise((resolve, reject) => {
       db.get().collection(collection.USER).find({}).toArray((err, response) => {
@@ -475,5 +493,6 @@ module.exports = {
       })
     })
   }
+  
 }
 
