@@ -142,7 +142,7 @@ router.post('/verify-payment', (req, res) => {
   })
 });
 
-router.get('/orders', async(req, res) => {
+router.get('/orders', verifyLogin, async(req, res) => {
   const ordrs = await productcontroller.ordrs(req.session.user._id)
   res.render('users/orders.hbs', { ordrs, user: req.session.user })
 })
