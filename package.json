@@ -23,5 +23,23 @@
   },
   "devDependencies": {
     "prettier": "2.6.2"
-  }
+  },
+  "main": "app.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/saranvlmna/ecomers-node-mongoclient.git"
+  },
+  "author": "Saranjith P",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/saranvlmna/ecomers-node-mongoclient/issues"
+  },
+  "homepage": "https://github.com/saranvlmna/ecomers-node-mongoclient#readme",
+  "keywords": [
+    "shopping",
+    "cart",
+    "nodejs",
+    "hbs"
+  ],
+  "description": ""
 }
